@@ -4,7 +4,7 @@ Docker image of NetXMS agent.
 
 Start with
 
-	docker run lomo/netxms-nxagent
+	docker run frostasm/netxms-nxagent
 
 Environment variables
 

@@ -1,7 +1,7 @@
 # Dockerfile for building NetXMS webui
 
 FROM tomcat:8
-MAINTAINER Julius Loman <lomo@kyberia.net>
+MAINTAINER Serhii Moroz <frost.asm@gmail.com>
 
 ENV VERSION=2.1-RC1 NETXMS_SERVER=127.0.0.1 NETXMS_SESSIONTIMEOUT=120 NETXMS_ENABLEADVANCEDSETTINGS=true
 

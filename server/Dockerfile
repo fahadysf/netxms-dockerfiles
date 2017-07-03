@@ -1,7 +1,7 @@
 # Dockerfile for building NetXMS server image
 
 FROM debian:jessie
-MAINTAINER Julius Loman <lomo@kyberia.net>
+MAINTAINER Serhii Moroz <frost.asm@gmail.com>
 
 ENV NETXMS_VERSION_SERVER=2.1-RC1-1 NETXMS_VERSION_AGENT=2.1-RC1-1
 

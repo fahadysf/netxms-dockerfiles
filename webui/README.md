@@ -5,7 +5,7 @@ Docker image of NetXMS WebUI Interface (www.netxms.org).
 
 Run with:
 
-	docker run -ti -e NETXMS_SERVER=<NETXMS_SERVER_HOSTNAME> --rm lomo/netxms-webui
+	docker run -ti -e NETXMS_SERVER=<NETXMS_SERVER_HOSTNAME> --rm frostasm/netxms-webui
 
 where
 * NETXMS\_SERVER\_HOSTNAME points to NetXMS server

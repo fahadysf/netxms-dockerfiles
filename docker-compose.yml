@@ -2,28 +2,14 @@ version: '2'
 
 services:
   server:
-    image: lomo/netxms-server
+    image: frostasm/netxms-server:2.1-rc1
     ports:
     - "4700:4700"
     - "4701:4701"
 
   webui:
-    image: lomo/netxms-webui
+    image: frostasm/netxms-webui:2.1-rc1
     ports:
     - "8080:8080"
     environment:
     - "NETXMS_SERVER=server"
-
-  console:
-    build: lomo/netxms-nxmc
-    environment:
-    - "DISPLAY=$DISPLAY"
-    volumes:
-    - "/tmp/.X11-unix:/tmp/.X11-unix"
-
-  agent:
-    image: lomo/netxms-nxagent
-    environment:
-    - "NXAGENT_CONFIG=MasterServer=server\nLogFile=/var/log/nxagentsome.log\nEnableProxy=yes\nEnableSNMPProxy=yes"
-    - "NXAGENT_MASTERSERVERS=server"
-    - "NXAGENT_REGISTERSERVER=server"

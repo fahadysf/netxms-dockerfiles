@@ -4,7 +4,7 @@ Docker image of NetXMS Server (www.netxms.org). Currently limited to SQLlite dat
 
 Start with
 
-	docker run lomo/netxms-server
+	docker run frostasm/netxms-server
 
 Environment variables
 
