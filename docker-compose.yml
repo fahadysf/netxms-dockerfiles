@@ -1,17 +1,31 @@
 version: '2'
 
 services:
-  server:
+
+  gmail-smtp-relay:
+    image: namshi/smtp:latest
+    restart: on-failure
+    environment:
+      GMAIL_USER: "USER@gmail.com"
+      GMAIL_PASSWORD: "PASSWORD"
+
+  netxms-server:
     image: frostasm/netxms-server:2.1
     restart: on-failure
     ports:
-    - "4700:4700"
-    - "4701:4701"
+      - "4700:4700"
+      - "4701:4701"
+    depends_on:
+      - gmail-smtp-relay
+    volumes:
+      - ./netxms-server-data:/data
 
-  webui:
+  netxms-webui:
     image: frostasm/netxms-webui:2.1
     restart: on-failure
     ports:
-    - "8080:8080"
+      - "8080:8080"
     environment:
-    - "NETXMS_SERVER=server"
+      NETXMS_SERVER: "netxms-server"
+    depends_on:
+      - netxms-server
