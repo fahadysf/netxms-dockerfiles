@@ -2,14 +2,14 @@ version: '2'
 
 services:
   server:
-    image: frostasm/netxms-server:2.1-rc1
+    image: frostasm/netxms-server:2.1
     restart: on-failure
     ports:
     - "4700:4700"
     - "4701:4701"
 
   webui:
-    image: frostasm/netxms-webui:2.1-rc1
+    image: frostasm/netxms-webui:2.1
     restart: on-failure
     ports:
     - "8080:8080"
