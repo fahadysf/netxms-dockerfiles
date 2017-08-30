@@ -3,22 +3,27 @@
 FROM debian:jessie
 MAINTAINER Serhii Moroz <frost.asm@gmail.com>
 
-ENV NETXMS_VERSION_SERVER=2.1.0-1 NETXMS_VERSION_AGENT=2.1.0-1
+ENV NETXMS_VERSION_SERVER=2.1.0-1
 
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && \
     apt-get update && apt-get -y install curl apt-transport-https && \
     curl -sL http://packages.netxms.org/netxms.gpg | apt-key add - && \
     echo "deb http://packages.netxms.org/debian/ jessie main" > /etc/apt/sources.list.d/netxms.list && \
-    apt-get update && apt-get -y install netxms-server=$NETXMS_VERSION_SERVER netxms-agent=$NETXMS_VERSION_AGENT netxms-dbdrv-sqlite3=$NETXMS_VERSION_SERVER supervisor && apt-get clean
+    apt-get update && \
+    apt-get -y install netxms-server=$NETXMS_VERSION_SERVER netxms-dbdrv-sqlite3=$NETXMS_VERSION_SERVER && \
+    apt-get clean && \
+    mkdir -p /usr/share/netxms/default-templates && \
+    mv /usr/share/netxms/templates/* /usr/share/netxms/default-templates/
+
 
 VOLUME /data
 
 EXPOSE 4701
 
-ENV NETXMS_UNLOCKONSTARTUP=1 NETXMS_STARTAGENT=1 NXAGENT_REGISTERSERVER=127.0.0.1
+ENV NETXMSD_UNLOCK_ON_STARTUP=1 NETXMSD_UPGRADE_ON_STARTUP=1 NETXMSD_DEBUG_LEVEL=0
 
-COPY ./docker-entrypoint.sh ./nxagent.sh /
+COPY ./docker-entrypoint.sh /
 
-RUN  chmod 755 /docker-entrypoint.sh /nxagent.sh
+RUN  chmod 755 /docker-entrypoint.sh
 
 CMD ["/docker-entrypoint.sh"]
