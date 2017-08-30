@@ -10,7 +10,7 @@ services:
       GMAIL_PASSWORD: "PASSWORD"
 
   netxms-server:
-    image: frostasm/netxms-server-test:2.1
+    image: frostasm/netxms-server:2.1
     restart: unless-stopped
     ports:
       - "4701:4701" # client -> server

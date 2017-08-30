@@ -9,7 +9,7 @@ Start with
 
 WARNING:
     
-    The default templates have been moved from **/usr/share/netxms/templates/** to a **/usr/share/netxms/default-templates/** folder and are not automatically imported when the program is started.
+The default templates have been moved from **/usr/share/netxms/templates/** to a **/usr/share/netxms/default-templates/** folder and are not automatically imported when the program is started.
 
 Environment variables
 
