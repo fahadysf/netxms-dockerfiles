@@ -9,6 +9,14 @@ services:
       GMAIL_USER: "USER@gmail.com"
       GMAIL_PASSWORD: "PASSWORD"
 
+  netxms-agent:
+    image: frostasm/netxms-nxagent-test:2.1
+    restart: unless-stopped
+    volumes:
+      - ./netxms-data/agent:/data
+    environment:
+      NETXMSD_CONFIG: "MasterServers=netxms-server"
+
   netxms-server:
     image: frostasm/netxms-server:2.1
     restart: unless-stopped
@@ -16,8 +24,9 @@ services:
       - "4701:4701" # client -> server
     depends_on:
       - gmail-smtp-relay
+      - netxms-agent
     volumes:
-      - ./netxms-server-data:/data
+      - ./netxms-data/server:/data
     environment:
       NETXMSD_UNLOCK_ON_STARTUP: 1
       NETXMSD_UPGRADE_ON_STARTUP: 1
