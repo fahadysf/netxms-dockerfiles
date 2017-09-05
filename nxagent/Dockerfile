@@ -3,7 +3,7 @@
 FROM debian:jessie
 MAINTAINER Serhii Moroz <frost.asm@gmail.com>
 
-ENV NETXMS_VERSION_AGENT=2.1.0-1
+ENV NETXMS_VERSION_AGENT=2.1.1-1
 
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && \
     apt-get update && apt-get -y install curl apt-transport-https && \
