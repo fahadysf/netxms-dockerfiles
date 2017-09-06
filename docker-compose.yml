@@ -10,12 +10,12 @@ services:
       GMAIL_PASSWORD: "PASSWORD"
 
   netxms-agent:
-    image: frostasm/netxms-nxagent-test:2.1.1
+    image: frostasm/netxms-nxagent:2.1.1
     restart: unless-stopped
     volumes:
       - ./netxms-data/agent:/data
     environment:
-      NETXMSD_CONFIG: "MasterServers=netxms-server"
+      NETXMSD_CONFIG: "MasterServers=172.0.0.0/8"
 
   netxms-server:
     image: frostasm/netxms-server:2.1.1
@@ -32,7 +32,8 @@ services:
       NETXMSD_UPGRADE_ON_STARTUP: 1
       NETXMSD_DEBUG_LEVEL: 0
       NETXMSD_CONFIG: ""
-
+    command: ["/wait-for", "netxms-agent:4700", "--", "./docker-entrypoint.sh"]
+    
   netxms-webui:
     image: frostasm/netxms-webui:2.1.1
     restart: unless-stopped
