@@ -10,7 +10,7 @@ services:
       GMAIL_PASSWORD: "PASSWORD"
 
   netxms-agent:
-    image: frostasm/netxms-nxagent:2.1.1
+    image: frostasm/netxms-nxagent:latest
     restart: unless-stopped
     volumes:
       - ./netxms-data/agent:/data
@@ -18,7 +18,7 @@ services:
       NETXMSD_CONFIG: "MasterServers=172.0.0.0/8"
 
   netxms-server:
-    image: frostasm/netxms-server:2.1.1
+    image: frostasm/netxms-server:latest
     restart: unless-stopped
     ports:
       - "4701:4701" # client -> server
@@ -35,7 +35,7 @@ services:
     command: ["/wait-for", "netxms-agent:4700", "--", "./docker-entrypoint.sh"]
     
   netxms-webui:
-    image: frostasm/netxms-webui:2.1.1
+    image: frostasm/netxms-webui:latest
     restart: unless-stopped
     ports:
       - "8080:8080" # http://server:8080/nxmc/nxmc
