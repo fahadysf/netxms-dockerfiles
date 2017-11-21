@@ -3,7 +3,7 @@
 FROM debian:jessie
 MAINTAINER Serhii Moroz <frost.asm@gmail.com>
 
-ENV VERSION=2.1.1
+ENV VERSION=2.1.2
 
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && \
     apt-get update && apt-get -y install curl apt-transport-https openjdk-7-jre && \

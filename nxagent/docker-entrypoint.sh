@@ -43,4 +43,5 @@ ARGS="-f"
 [ -n "$NXAGENT_LOGLEVEL" ] && ARGS="$ARGS -D $NXAGENT_LOGLEVEL"
 [ -n "$NXAGENT_PLATFORMSUFFIX" ] && ARGS="$ARGS -P $NXAGENT_PLATFORMSUFFIX"
 
+echo "Starting nxagentd"
 exec nxagentd $ARGS -c "${nxagent_conf}" 
