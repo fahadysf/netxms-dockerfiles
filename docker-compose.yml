@@ -22,6 +22,7 @@ services:
     restart: unless-stopped
     ports:
       - "4701:4701" # client -> server
+      - "514:514/udp" # syslog server
     depends_on:
       - gmail-smtp-relay
       - netxms-agent

@@ -19,6 +19,7 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
 VOLUME /data
 
 EXPOSE 4701
+EXPOSE 514/udp
 
 ENV NETXMSD_UNLOCK_ON_STARTUP=1 NETXMSD_UPGRADE_ON_STARTUP=1 NETXMSD_DEBUG_LEVEL=0
 
