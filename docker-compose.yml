@@ -33,6 +33,7 @@ services:
       NETXMSD_UPGRADE_ON_STARTUP: 1
       NETXMSD_DEBUG_LEVEL: 0
       NETXMSD_CONFIG: ""
+      NETXMSD_UPGRADE_PARAMS: ""
     command: ["/wait-for", "netxms-agent:4700", "--", "./docker-entrypoint.sh"]
     
   netxms-webui:

@@ -41,7 +41,7 @@ fi
 
 if [ "${NETXMSD_UPGRADE_ON_STARTUP}" -gt 0 ]; then
     echo "Upgrading database"
-    nxdbmgr -c ${netxmsd_conf} upgrade
+    nxdbmgr ${NETXMSD_UPGRADE_PARAMS} -c ${netxmsd_conf} upgrade
 fi
 
 # Usage: netxmsd [<options>]
