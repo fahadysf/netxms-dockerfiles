@@ -5,7 +5,7 @@ MAINTAINER Serhii Moroz <frost.asm@gmail.com>
 
 ENV MAJOR=2
 ENV MINOR=2
-ENV RELEASE=3
+ENV RELEASE=4
 
 ENV VERSION=${MAJOR}.${MINOR}.${RELEASE}
 
