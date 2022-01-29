@@ -1,47 +1,78 @@
-version: '3'
+version: "3"
 
 services:
-
-  gmail-smtp-relay:
-    image: namshi/smtp:latest
-    restart: unless-stopped
+  nxms_database:
+    image: "docker.io/library/postgres:latest"
     environment:
-      GMAIL_USER: "USER@gmail.com"
-      GMAIL_PASSWORD: "PASSWORD"
-
-  netxms-agent:
-    image: frostasm/netxms-nxagent:latest
-    restart: unless-stopped
-    volumes:
-      - ./netxms-data/agent:/data
-    environment:
-      NETXMSD_CONFIG: "MasterServers=172.0.0.0/8"
-
-  netxms-server:
-    image: frostasm/netxms-server:latest
-    restart: unless-stopped
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: netxms_db_password
+      POSTGRES_DB: netxmsdb
     ports:
-      - "4701:4701" # client -> server
-      - "514:514/udp" # syslog server
-    depends_on:
-      - gmail-smtp-relay
-      - netxms-agent
+      - "5432:5432"
     volumes:
-      - ./netxms-data/server:/data
+      - database-data:/var/lib/postgresql/data/ # persist data even if container shuts down
+    networks:
+      nxms_bridge:
+        aliases:
+          - nxms_database
+          - pgsql-server
+          - dbhost
+
+  pgadmin:
+    image: docker.io/dpage/pgadmin4:latest
     environment:
-      NETXMSD_UNLOCK_ON_STARTUP: 1
-      NETXMSD_UPGRADE_ON_STARTUP: 1
-      NETXMSD_DEBUG_LEVEL: 0
-      NETXMSD_CONFIG: ""
-      NETXMSD_UPGRADE_PARAMS: ""
-    command: ["/wait-for", "netxms-agent:4700", "--", "./docker-entrypoint.sh"]
-    
+      PGADMIN_DEFAULT_EMAIL: admin@fy.loc
+      PGADMIN_DEFAULT_PASSWORD: pgadmin_password
+      PGADMIN_LISTEN_PORT: 80
+    ports:
+      - "18080:80"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    networks:
+      nxms_bridge:
+        aliases:
+          - pgadmin
+    #links:
+    #  - "nxms_database:pgsql-server"
+
+  netxmsd:
+    image: docker.io/fahadysf/netxms-server:latest
+    environment:
+      DB_SERVER: dbhost
+      DB_DRIVER: pgsql.ddr
+      DB_USER: admin
+      DB_NAME: netxmsdb
+      DB_PASSWORD: netxms_db_password
+      DB_INIT_PGSQL: 0
+    ports:
+      #- "514:514"
+      - "4701:4701"
+    volumes:
+      - netxms-config:/data
+    networks:
+      nxms_bridge:
+        aliases:
+          - netxmsd
+    #links:
+    #  - "nxms_database:dbhost"
+
   netxms-webui:
-    image: frostasm/netxms-webui:latest
-    restart: unless-stopped
-    ports:
-      - "8080:8080" # http://server:8080/nxmc/nxmc
+    image: docker.io/fahadysf/netxms-webui:latest
     environment:
-      NETXMS_SERVER: "netxms-server"
-    depends_on:
-      - netxms-server
+      NETXMS_SERVER: netxmsd
+    ports:
+      - "8010:8080"
+    networks:
+      nxms_bridge:
+        aliases:
+          - netxms-webui
+    #links:
+    #  - "netxmsd:netxmsd"
+
+volumes:
+  netxms-config:
+  database-data:
+  pgadmin-data:
+
+networks:
+  nxms_bridge:
